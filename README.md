@@ -86,9 +86,27 @@ Bearbeiter:in ──(Microsoft-/Google-Login, Azure)──▶ /admin  ──▶ 
    | `CMS_LOGIN_PROVIDERS` | optional, Standard `aad,google` (nur `aad` → nur Microsoft-Knopf) |
 
    Neue Bearbeiter:innen freischalten = Adresse bei `CMS_EDITORS` ergänzen und speichern. Mehr ist nicht nötig.
-6. **Eigene Domain (Livegang):** App Service → *Benutzerdefinierte Domänen* → `www.physiotherapie-kaumberg.at`
-   (erfordert mindestens Tarif *B1*). **Achtung:** MX-Einträge für die E-Mail nicht verändern.
-   Danach bei Google die Weiterleitungs-URI für die neue Domain ergänzen (Microsoft wird von Azure automatisch angepasst).
+6. **Eigene Domain (Livegang)** – Web auf Azure, E-Mail bleibt bei Hoststar:
+   - App Service auf mindestens Tarif **B1** stellen (F1 erlaubt keine eigene Domain).
+   - App Service → *Benutzerdefinierte Domänen* → *Domäne hinzufügen*: zuerst `www.physiotherapie-kaumberg.at`, dann `physiotherapie-kaumberg.at`.
+     Azure zeigt die nötigen DNS-Einträge an.
+   - Im DNS-Bereich bei Hoststar **nur** diese Einträge anlegen bzw. ändern:
+
+     | Typ | Name | Wert |
+     | --- | --- | --- |
+     | CNAME | `www` | `<app>.azurewebsites.net` |
+     | TXT | `asuid.www` | Domain-Verifizierungs-ID aus Azure |
+     | A | `@` (ohne www) | IP-Adresse aus Azure |
+     | TXT | `asuid` | Domain-Verifizierungs-ID aus Azure |
+
+     **MX-, SPF-, Autodiscover- und `mail`-Einträge nicht anfassen** – sonst funktioniert die E-Mail nicht mehr.
+   - Für beide Domains ein kostenloses *App Service Managed Certificate* anlegen und binden (*Zertifikate* → *Verwaltetes Zertifikat hinzufügen*).
+   - App-Einstellung `HAUPTDOMAIN` = `www.physiotherapie-kaumberg.at` setzen → Aufrufe ohne „www“ werden dorthin umgeleitet.
+   - Login-Weiterleitungen für die neue Domain ergänzen:
+     - Microsoft: Microsoft Entra ID → *App-Registrierungen* → (die von Easy Auth angelegte App) → *Authentifizierung* → Umleitungs-URI
+       `https://www.physiotherapie-kaumberg.at/.auth/login/aad/callback` hinzufügen.
+     - Google: in der Google Cloud Console beim OAuth-Client `https://www.physiotherapie-kaumberg.at/.auth/login/google/callback` hinzufügen.
+   - **Hoststar-Webhosting erst kündigen, wenn geklärt ist, dass die Postfächer bestehen bleiben** (ggf. auf ein reines Mail-Paket umstellen).
 
 ## Vor dem Livegang noch offen
 

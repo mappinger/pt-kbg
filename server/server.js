@@ -125,6 +125,12 @@ const server = http.createServer(async (req, res) => {
     const proto = (req.headers["x-forwarded-proto"] || "http").split(",")[0];
     const url = new URL(req.url, `${proto}://${req.headers.host || "localhost"}`);
 
+    // physiotherapie-kaumberg.at → www.physiotherapie-kaumberg.at (nur wenn HAUPTDOMAIN gesetzt ist)
+    const haupt = process.env.HAUPTDOMAIN;
+    if (haupt && url.hostname === haupt.replace(/^www\./, "") && url.hostname !== haupt) {
+      return senden(req, res, 301, { Location: `https://${haupt}${url.pathname}${url.search}` }, "");
+    }
+
     if (url.pathname === "/api/cms") return cmsSchnittstelle(req, res);
 
     // Redaktionsbereich nur für angemeldete und freigeschaltete Personen
