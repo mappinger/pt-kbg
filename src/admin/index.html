@@ -8,9 +8,11 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 <body>
+  <script>window.CMS_MANUAL_INIT = true;</script>
   <script src="https://unpkg.com/decap-cms@3.17.1/dist/decap-cms.js"></script>
   <script>
-    // Vorschau im Editor im Stil der Website
+    // Login läuft über /api/auth der jeweiligen Domain (Testsystem und Livesystem gleichermaßen)
+    CMS.init({ config: { backend: { base_url: window.location.origin } } });
     CMS.registerPreviewStyle("/assets/css/main.css");
   </script>
 </body>

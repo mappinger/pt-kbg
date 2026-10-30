@@ -5,8 +5,9 @@
   "description": "Website der Physiotherapie Kaumberg – Eleventy + Decap CMS",
   "type": "module",
   "scripts": {
-    "start": "eleventy --serve",
+    "dev": "eleventy --serve",
     "build": "eleventy",
+    "start": "node server/server.js",
     "cms": "decap-server"
   },
   "engines": {

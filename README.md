@@ -13,7 +13,7 @@ Neue Website für [physiotherapie-kaumberg.at](https://www.physiotherapie-kaumbe
 
 ```bash
 npm install
-npm start            # http://localhost:8080
+npm run dev          # http://localhost:8080 (mit Live-Reload)
 ```
 
 CMS lokal testen (ohne Login, schreibt direkt in die Dateien):
@@ -35,15 +35,32 @@ npm run cms          # in einem zweiten Terminal, dann http://localhost:8080/adm
 | `src/admin/config.yml` | CMS-Konfiguration (Felder, Beschriftungen) |
 | `src/images/uploads/` | Über das CMS hochgeladene Bilder |
 
-## Veröffentlichen (Netlify, kostenlos)
+## Hosting: Azure App Service (`ptkaumberg`)
 
-1. Auf [netlify.com](https://app.netlify.com) „Add new site → Import from Git“ → dieses Repository wählen. Build-Einstellungen kommen aus `netlify.toml`.
-2. **Login für das CMS:** In Netlify unter *Site configuration → Access & security → OAuth* einen GitHub-Provider anlegen
-   (dazu auf GitHub unter *Settings → Developer settings → OAuth Apps* eine App mit Callback-URL `https://api.netlify.com/auth/done` erstellen und Client-ID/Secret eintragen).
-3. Die Praxis-Mitarbeiter:innen brauchen einen (kostenlosen) GitHub-Account und werden im Repository als *Collaborator* (Schreibrechte) eingeladen.
-4. Domain: In Netlify *Domain management* → `www.physiotherapie-kaumberg.at` hinzufügen und beim Domain-Anbieter die DNS-Einträge wie angezeigt umstellen. HTTPS wird automatisch eingerichtet.
+Bei jedem Push auf `main` – also auch bei jeder Änderung im CMS – baut GitHub Actions die Seite
+und veröffentlicht sie (`.github/workflows/main_ptkaumberg.yml`, Dauer ca. 3–4 Minuten).
+Ausgeliefert wird nur ein schlankes Paket: die fertige Seite (`_site/`) und ein kleiner Node-Webserver
+ohne Abhängigkeiten (`server/server.js`). Der Server stellt auch den CMS-Login bereit (`/api/auth`, `/api/callback`, siehe `server/cms-auth.js`).
 
-Jede Änderung im CMS erzeugt einen Commit auf `main`; Netlify baut die Seite danach automatisch neu (ca. 1 Minute).
+Lokal wie auf Azure testen: `npm run build && npm start` → http://localhost:8080
+
+### Einrichtung (einmalig)
+
+1. **App Service:** Linux, Runtime *Node 24 LTS*. Kein Startbefehl nötig (es wird `npm start` ausgeführt).
+   Unter *Einstellungen → Konfiguration* „Nur HTTPS“ aktivieren.
+2. **GitHub-OAuth-App anlegen:** GitHub → *Settings → Developer settings → OAuth Apps → New OAuth App*
+   - Homepage URL: `https://ptkaumberg.azurewebsites.net` (bzw. die Adresse aus der Azure-Übersicht)
+   - Authorization callback URL: `https://<dieselbe Adresse>/api/callback`
+   - Client-ID und ein neues Client-Secret notieren.
+3. **Umgebungsvariablen:** App Service → *Einstellungen → Umgebungsvariablen → App-Einstellungen*:
+   - `OAUTH_GITHUB_CLIENT_ID` = Client-ID
+   - `OAUTH_GITHUB_CLIENT_SECRET` = Client-Secret
+4. **Redakteur:innen:** Die Praxis-Mitarbeiter:innen brauchen einen (kostenlosen) GitHub-Account
+   und werden im Repository unter *Settings → Collaborators* mit Schreibrechten eingeladen.
+5. **Eigene Domain (Livegang):** App Service → *Benutzerdefinierte Domänen* → `www.physiotherapie-kaumberg.at`
+   (erfordert mindestens Tarif *B1*, im Gratis-Tarif F1 nicht möglich). **Achtung:** MX-Einträge für die E-Mail nicht verändern.
+   Danach die Callback-URL der OAuth-App auf die neue Domain ändern (eine OAuth-App hat nur eine Callback-URL –
+   für Test- und Livesystem parallel zwei OAuth-Apps verwenden).
 
 ## Vor dem Livegang noch offen
 

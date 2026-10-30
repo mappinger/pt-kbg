@@ -3,7 +3,7 @@
 ## Anmelden
 
 1. Öffnen Sie **https://www.physiotherapie-kaumberg.at/admin/**
-2. Klicken Sie auf **„Mit GitHub anmelden“** und melden Sie sich mit Ihrem GitHub-Konto an.
+2. Klicken Sie auf **„Mit GitHub einloggen“** und melden Sie sich mit Ihrem GitHub-Konto an.
 
 ## Inhalte ändern
 
@@ -14,7 +14,7 @@ Links sehen Sie drei Bereiche:
 - **Einstellungen** – Adresse, E-Mail, Facebook-Link und das Menü.
 
 Klicken Sie auf einen Eintrag, ändern Sie die Felder und klicken Sie oben auf **„Veröffentlichen“ → „Jetzt veröffentlichen“**.
-Nach ca. **1–2 Minuten** ist die Änderung auf der Website sichtbar.
+Nach ca. **3–4 Minuten** ist die Änderung auf der Website sichtbar.
 
 ### Häufige Aufgaben
 

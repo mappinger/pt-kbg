@@ -12,7 +12,7 @@ E-Mail: [praxis@physiotherapie-kaumberg.at](mailto:praxis@physiotherapie-kaumber
 
 ## Besuch dieser Website
 
-Diese Website setzt **keine Cookies**, verwendet **keine Analyse- oder Tracking-Dienste** und lädt **keine Inhalte von Drittanbietern** (Schriftarten werden lokal ausgeliefert). Beim Aufruf der Website speichert unser Hosting-Anbieter [Netlify, Inc., 512 2nd Street, San Francisco, CA 94107, USA] technisch notwendige Zugriffsdaten (IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Browser) in Server-Logfiles. Dies erfolgt auf Grundlage unseres berechtigten Interesses an einem sicheren und stabilen Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Die Übermittlung in die USA erfolgt auf Grundlage des EU-US Data Privacy Framework bzw. von Standardvertragsklauseln.
+Diese Website setzt **keine Cookies**, verwendet **keine Analyse- oder Tracking-Dienste** und lädt **keine Inhalte von Drittanbietern** (Schriftarten werden lokal ausgeliefert). Beim Aufruf der Website speichert unser Hosting-Anbieter [Microsoft Ireland Operations Ltd., One Microsoft Place, South County Business Park, Leopardstown, Dublin 18, Irland (Microsoft Azure, Rechenzentrum in der EU)] technisch notwendige Zugriffsdaten (IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Browser) in Server-Logfiles. Dies erfolgt auf Grundlage unseres berechtigten Interesses an einem sicheren und stabilen Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Mit dem Anbieter besteht ein Auftragsverarbeitungsvertrag; eine Übermittlung in Drittländer erfolgt gegebenenfalls auf Grundlage des EU-US Data Privacy Framework bzw. von Standardvertragsklauseln.
 
 ## Kontaktaufnahme
 

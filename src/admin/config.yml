@@ -1,9 +1,11 @@
 # Decap CMS – Redaktionsoberfläche unter /admin
-# Anmeldung über GitHub (siehe ANLEITUNG-CMS.md)
+# Anmeldung über GitHub – der Login läuft über server/cms-auth.js (/api/auth, siehe README.md).
+# base_url wird in admin/index.html automatisch auf die aktuelle Domain gesetzt.
 backend:
   name: github
   repo: mappinger/pt-kbg
   branch: main
+  auth_endpoint: api/auth
   commit_messages:
     create: "Neu: {{collection}} „{{slug}}“"
     update: "Geändert: {{collection}} „{{slug}}“"
@@ -37,9 +39,7 @@ collections:
     identifier_field: name
     editor: { preview: false }
     summary: "{{reihenfolge}}. {{name}} – {{rolle}}"
-    sortable_fields:
-      fields: [reihenfolge, name]
-      default: { field: reihenfolge, direction: ascending }
+    sortable_fields: [reihenfolge, name]
     fields:
       - { label: Name (kurz), name: name, widget: string, hint: "z. B. Marina Sörös – wird in Karten und Überschriften verwendet" }
       - { label: Name mit Titeln, name: voller_name, widget: string, required: false, hint: "z. B. Mag. Katharina Zechner, BSc" }
