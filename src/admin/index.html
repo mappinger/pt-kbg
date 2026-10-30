@@ -8,12 +8,23 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 <body>
-  <script>window.CMS_MANUAL_INIT = true;</script>
   <script src="https://unpkg.com/decap-cms@3.17.1/dist/decap-cms.js"></script>
   <script>
-    // Login läuft über /api/auth der jeweiligen Domain (Testsystem und Livesystem gleichermaßen)
-    CMS.init({ config: { backend: { base_url: window.location.origin } } });
     CMS.registerPreviewStyle("/assets/css/main.css");
+
+    // Die Anmeldung ist bereits über Microsoft/Google erfolgt – den zusätzlichen
+    // „Login“-Knopf des CMS automatisch bestätigen.
+    new MutationObserver((_, beobachter) => {
+      const knopf = [...document.querySelectorAll("button")].find((b) => /^(login|einloggen|anmelden)$/i.test(b.textContent.trim()));
+      if (knopf) { beobachter.disconnect(); knopf.click(); }
+    }).observe(document.body, { childList: true, subtree: true });
   </script>
+  <a class="abmelden" href="/.auth/logout?post_logout_redirect_uri=%2Fadmin%2F">Abmelden</a>
+  <style>
+    .abmelden { position: fixed; left: 16px; bottom: 16px; z-index: 9999; padding: 8px 14px; border-radius: 999px;
+      background: #fff; color: #a12e26; border: 1px solid #eaded3; font: 600 14px system-ui, sans-serif; text-decoration: none;
+      box-shadow: 0 4px 14px -6px rgb(0 0 0 / .3); }
+    .abmelden:hover { background: #a12e26; color: #fff; }
+  </style>
 </body>
 </html>

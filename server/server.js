@@ -1,11 +1,12 @@
 // Webserver für Azure App Service: liefert die fertige Website aus _site aus
-// und stellt den CMS-Login unter /api/auth und /api/callback bereit. Keine Abhängigkeiten nötig.
+// und stellt unter /api/cms die Schnittstelle für das CMS bereit. Keine Abhängigkeiten nötig.
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
-import { auth, callback } from "./cms-auth.js";
+import { benutzer, anmeldeSeite, keinZugriffSeite } from "./anmeldung.js";
+import { cmsAktion } from "./cms-backend.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), process.env.SITE_DIR || "../_site");
 const PORT = process.env.PORT || 8080;
@@ -29,6 +30,8 @@ const TYPEN = {
   ".woff2": "font/woff2",
   ".pdf": "application/pdf",
 };
+const MAX_ANFRAGE = 25 * 1024 * 1024; // Bild-Uploads kommen Base64-kodiert
+
 const KOMPRIMIERBAR = /^(text\/|application\/(json|xml)|image\/svg)/;
 
 // Alte WordPress-Adressen
@@ -71,6 +74,46 @@ function dateiSenden(req, res, datei, status = 200) {
   fs.createReadStream(datei).pipe(res);
 }
 
+function json(req, res, status, daten) {
+  senden(req, res, status, { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" }, JSON.stringify(daten));
+}
+
+function koerperLesen(req) {
+  return new Promise((resolve, reject) => {
+    const teile = [];
+    let groesse = 0;
+    req.on("data", (teil) => {
+      groesse += teil.length;
+      if (groesse > MAX_ANFRAGE) {
+        reject(Object.assign(new Error("Datei zu groß (max. ca. 18 MB)."), { status: 413 }));
+        req.destroy();
+      } else teile.push(teil);
+    });
+    req.on("end", () => resolve(Buffer.concat(teile).toString("utf8")));
+    req.on("error", reject);
+  });
+}
+
+async function cmsSchnittstelle(req, res) {
+  const b = benutzer(req);
+  if (!b) return json(req, res, 401, { error: "Bitte melden Sie sich erneut an." });
+  if (!b.erlaubt) return json(req, res, 403, { error: "Keine Berechtigung zum Bearbeiten der Website." });
+  if (req.method !== "POST") return json(req, res, 405, { error: "Nur POST erlaubt." });
+  try {
+    const { action, params } = JSON.parse(await koerperLesen(req));
+    const ergebnis = await cmsAktion(action, params, b);
+    if (["persistEntry", "persistMedia", "deleteFile", "deleteFiles"].includes(action)) {
+      console.log(`CMS: ${action} durch ${b.email}`);
+    }
+    json(req, res, 200, ergebnis);
+  } catch (err) {
+    console.error("CMS-Fehler:", err.message);
+    json(req, res, err.status && err.status < 500 ? err.status : 500, {
+      error: err.status && err.status < 500 ? err.message : "Speichern fehlgeschlagen – bitte in einer Minute erneut versuchen.",
+    });
+  }
+}
+
 function nichtGefunden(req, res) {
   const seite = path.join(ROOT, "404.html");
   if (fs.existsSync(seite)) return dateiSenden(req, res, seite, 404);
@@ -82,9 +125,15 @@ const server = http.createServer(async (req, res) => {
     const proto = (req.headers["x-forwarded-proto"] || "http").split(",")[0];
     const url = new URL(req.url, `${proto}://${req.headers.host || "localhost"}`);
 
-    if (url.pathname === "/api/auth" || url.pathname === "/api/callback") {
-      const r = url.pathname === "/api/auth" ? auth(url) : await callback(url, req.headers.cookie);
-      return senden(req, res, r.status, r.headers, r.body);
+    if (url.pathname === "/api/cms") return cmsSchnittstelle(req, res);
+
+    // Redaktionsbereich nur für angemeldete und freigeschaltete Personen
+    if (url.pathname === "/admin" || url.pathname.startsWith("/admin/")) {
+      const b = benutzer(req);
+      const htmlSeite = (status, body) =>
+        senden(req, res, status, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" }, body);
+      if (!b) return url.pathname === "/admin/" || url.pathname === "/admin" ? htmlSeite(200, anmeldeSeite()) : htmlSeite(401, anmeldeSeite());
+      if (!b.erlaubt) return htmlSeite(403, keinZugriffSeite(b));
     }
 
     if (req.method !== "GET" && req.method !== "HEAD") {

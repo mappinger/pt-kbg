@@ -1,11 +1,10 @@
 # Decap CMS – Redaktionsoberfläche unter /admin
-# Anmeldung über GitHub – der Login läuft über server/cms-auth.js (/api/auth, siehe README.md).
-# base_url wird in admin/index.html automatisch auf die aktuelle Domain gesetzt.
 backend:
-  name: github
-  repo: mappinger/pt-kbg
+  # Der Webserver (server/cms-backend.js) prüft die Anmeldung (Microsoft/Google über Azure)
+  # und speichert Änderungen über die GitHub-API. Bearbeiter:innen brauchen kein GitHub-Konto.
+  name: proxy
+  proxy_url: /api/cms
   branch: main
-  auth_endpoint: api/auth
   commit_messages:
     create: "Neu: {{collection}} „{{slug}}“"
     update: "Geändert: {{collection}} „{{slug}}“"
@@ -13,7 +12,7 @@ backend:
     uploadMedia: "Bild hochgeladen: {{path}}"
     deleteMedia: "Bild gelöscht: {{path}}"
 
-# Lokales Testen: `npm run cms` und `npm start`, dann http://localhost:8080/admin/
+# Lokales Testen ohne Login: `npm run cms` und `npm run dev`, dann http://localhost:8080/admin/
 local_backend: true
 
 locale: de

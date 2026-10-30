@@ -3,7 +3,12 @@
 ## Anmelden
 
 1. Öffnen Sie **https://www.physiotherapie-kaumberg.at/admin/**
-2. Klicken Sie auf **„Mit GitHub einloggen“** und melden Sie sich mit Ihrem GitHub-Konto an.
+2. Klicken Sie auf **„Mit Microsoft-Konto anmelden“** oder **„Mit Google-Konto anmelden“** und melden Sie sich wie gewohnt an
+   (z. B. mit Ihrer Outlook-, Hotmail- oder Gmail-Adresse).
+3. Beim ersten Mal fragt Microsoft bzw. Google, ob die Website Ihren Namen und Ihre E-Mail-Adresse sehen darf – bitte bestätigen.
+
+Erscheint „Kein Zugriff“, ist Ihre Adresse noch nicht freigeschaltet – bitte melden Sie sich bei Ihrem Webbetreuer.
+Zum Abmelden unten links auf **„Abmelden“** klicken.
 
 ## Inhalte ändern
 
