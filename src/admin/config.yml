@@ -1,0 +1,298 @@
+# Decap CMS – Redaktionsoberfläche unter /admin
+# Anmeldung über GitHub (siehe ANLEITUNG-CMS.md)
+backend:
+  name: github
+  repo: mappinger/pt-kbg
+  branch: main
+  commit_messages:
+    create: "Neu: {{collection}} „{{slug}}“"
+    update: "Geändert: {{collection}} „{{slug}}“"
+    delete: "Gelöscht: {{collection}} „{{slug}}“"
+    uploadMedia: "Bild hochgeladen: {{path}}"
+    deleteMedia: "Bild gelöscht: {{path}}"
+
+# Lokales Testen: `npm run cms` und `npm start`, dann http://localhost:8080/admin/
+local_backend: true
+
+locale: de
+site_url: https://www.physiotherapie-kaumberg.at
+display_url: https://www.physiotherapie-kaumberg.at
+logo_url: /images/logo.jpg
+
+media_folder: src/images/uploads
+public_folder: /images/uploads
+
+collections:
+  # ------------------------------------------------------------------ TEAM
+  - name: team
+    label: Team
+    label_singular: Teammitglied
+    description: Teammitglieder anlegen, bearbeiten oder entfernen. Die Reihenfolge bestimmt die Sortierung auf der Website.
+    folder: src/team
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    slug: "{{name}}"
+    identifier_field: name
+    editor: { preview: false }
+    summary: "{{reihenfolge}}. {{name}} – {{rolle}}"
+    sortable_fields:
+      fields: [reihenfolge, name]
+      default: { field: reihenfolge, direction: ascending }
+    fields:
+      - { label: Name (kurz), name: name, widget: string, hint: "z. B. Marina Sörös – wird in Karten und Überschriften verwendet" }
+      - { label: Name mit Titeln, name: voller_name, widget: string, required: false, hint: "z. B. Mag. Katharina Zechner, BSc" }
+      - { label: Berufsbezeichnung, name: rolle, widget: string }
+      - { label: Telefon, name: telefon, widget: string }
+      - { label: Porträtfoto, name: foto, widget: image, hint: "Hochformat, mindestens 800 px breit" }
+      - { label: Reihenfolge, name: reihenfolge, widget: number, value_type: int, default: 10 }
+      - { label: Auf der Website anzeigen, name: aktiv, widget: boolean, default: true, required: false }
+      - label: Ausbildung & berufliche Tätigkeit
+        name: ausbildung
+        widget: list
+        label_singular: Eintrag
+        required: false
+        summary: "{{zeit}}: {{text}}"
+        fields:
+          - { label: Zeitraum, name: zeit, widget: string }
+          - { label: Beschreibung, name: text, widget: string }
+      - label: Fortbildungen
+        name: fortbildungen
+        widget: list
+        label_singular: Fortbildung
+        required: false
+        summary: "{{zeit}}: {{text}}"
+        fields:
+          - { label: Zeitraum, name: zeit, widget: string }
+          - { label: Beschreibung, name: text, widget: string }
+      - label: Persönliches
+        name: persoenlich
+        widget: list
+        label_singular: Frage
+        required: false
+        summary: "{{frage}} {{antwort}}"
+        fields:
+          - { label: Frage, name: frage, widget: string }
+          - { label: Antwort, name: antwort, widget: text }
+      - { label: Lebensmotto, name: motto, widget: text, required: false }
+
+  # ------------------------------------------------------------------ SEITEN
+  - name: seiten
+    label: Seiten
+    description: Texte, Bilder und Listen der einzelnen Seiten.
+    delete: false
+    editor: { preview: false }
+    files:
+      - label: Startseite
+        name: start
+        file: src/index.md
+        fields:
+          - { label: Layout, name: layout, widget: hidden }
+          - { label: Permalink, name: permalink, widget: hidden }
+          - { label: Seitentitel (Browser-Tab), name: title, widget: string }
+          - label: Kopfbereich
+            name: hero
+            widget: object
+            fields:
+              - { label: Kleine Zeile über der Überschrift, name: eyebrow, widget: string }
+              - { label: Überschrift, name: ueberschrift, widget: string }
+              - { label: Text, name: text, widget: text }
+              - { label: Bild, name: bild, widget: image }
+              - { label: Bildbeschreibung (für Barrierefreiheit), name: bild_alt, widget: string }
+          - label: Fakten-Kacheln
+            name: fakten
+            widget: list
+            label_singular: Kachel
+            summary: "{{zahl}} – {{text}}"
+            fields:
+              - { label: Hervorgehoben, name: zahl, widget: string }
+              - { label: Text, name: text, widget: string }
+          - label: Zitat
+            name: zitat
+            widget: object
+            fields:
+              - { label: Zitat, name: text, widget: text }
+              - { label: Autor, name: autor, widget: string }
+          - label: Abschnitt „Behandlung“
+            name: abschnitt_behandlung
+            widget: object
+            fields:
+              - { label: Überschrift, name: ueberschrift, widget: string }
+              - { label: Text, name: text, widget: text }
+          - label: Abschnitt „Team“
+            name: abschnitt_team
+            widget: object
+            fields:
+              - { label: Überschrift, name: ueberschrift, widget: string }
+              - { label: Text, name: text, widget: text }
+          - label: Abschnitt „Ablauf“
+            name: abschnitt_ablauf
+            widget: object
+            fields:
+              - { label: Überschrift, name: ueberschrift, widget: string }
+              - { label: Text, name: text, widget: text }
+
+      - label: Team (Übersichtsseite)
+        name: team_uebersicht
+        file: src/team-uebersicht.md
+        fields:
+          - { label: Layout, name: layout, widget: hidden }
+          - { label: Permalink, name: permalink, widget: hidden }
+          - { label: Überschrift, name: title, widget: string }
+          - { label: Einleitung, name: einleitung, widget: text }
+
+      - label: Die Praxis
+        name: praxis
+        file: src/die-praxis.md
+        fields:
+          - { label: Layout, name: layout, widget: hidden }
+          - { label: Permalink, name: permalink, widget: hidden }
+          - { label: Überschrift, name: title, widget: string }
+          - { label: Einleitung, name: einleitung, widget: text }
+          - { label: Titelbild, name: titelbild, widget: image }
+          - { label: Bildbeschreibung, name: titelbild_alt, widget: string }
+          - { label: Text, name: body, widget: markdown, buttons: [bold, italic, link, heading-two, heading-three, bulleted-list, numbered-list], editor_components: [] }
+          - label: Bildergalerie
+            name: galerie
+            widget: list
+            label_singular: Bild
+            summary: "{{alt}}"
+            fields:
+              - { label: Bild, name: bild, widget: image }
+              - { label: Bildbeschreibung, name: alt, widget: string }
+
+      - label: Behandlung
+        name: behandlung
+        file: src/behandlung.md
+        fields:
+          - { label: Layout, name: layout, widget: hidden }
+          - { label: Permalink, name: permalink, widget: hidden }
+          - { label: Überschrift, name: title, widget: string }
+          - { label: Einleitung, name: einleitung, widget: text }
+          - label: Anwendungsbereiche
+            name: anwendungsbereiche
+            widget: list
+            label_singular: Anwendungsbereich
+            summary: "{{titel}}"
+            fields:
+              - { label: Titel, name: titel, widget: string }
+              - { label: Zusatztext, name: text, widget: string, required: false }
+          - { label: Überschrift „Weitere Angebote“, name: angebote_titel, widget: string }
+          - label: Weitere Angebote
+            name: angebote
+            widget: list
+            label_singular: Angebot
+            summary: "{{titel}}"
+            fields:
+              - { label: Titel, name: titel, widget: string }
+              - { label: Zusatztext, name: text, widget: string, required: false }
+          - { label: Bild, name: titelbild, widget: image }
+          - { label: Bildbeschreibung, name: titelbild_alt, widget: string }
+          - label: Zitate
+            name: zitate
+            widget: list
+            label_singular: Zitat
+            summary: "{{autor}}"
+            fields:
+              - { label: Zitat, name: text, widget: text }
+              - { label: Autor, name: autor, widget: string }
+          - { label: Zusätzlicher Text (optional), name: body, widget: markdown, required: false, buttons: [bold, italic, link, bulleted-list], editor_components: [] }
+
+      - label: Verlauf & Tarife
+        name: tarife
+        file: src/verlauf-tarife.md
+        fields:
+          - { label: Layout, name: layout, widget: hidden }
+          - { label: Permalink, name: permalink, widget: hidden }
+          - { label: Überschrift, name: title, widget: string }
+          - { label: Einleitung, name: einleitung, widget: text }
+          - label: Ablauf in Schritten
+            name: schritte
+            widget: list
+            label_singular: Schritt
+            summary: "{{titel}}"
+            fields:
+              - { label: Titel, name: titel, widget: string }
+              - { label: Text, name: text, widget: text, hint: "**Text** wird fett dargestellt" }
+          - { label: Überschrift Tarife, name: tarife_titel, widget: string, hint: "z. B. Tarife ab Jänner 2027" }
+          - label: Tarife
+            name: tarife
+            widget: list
+            label_singular: Tarif
+            summary: "{{leistung}} {{dauer}} – {{preis}}"
+            fields:
+              - { label: Leistung, name: leistung, widget: string }
+              - { label: Dauer, name: dauer, widget: string, required: false, hint: "z. B. 45 Minuten – leer lassen, wenn nicht zutreffend" }
+              - { label: Preis, name: preis, widget: string, hint: "z. B. 80 € oder zusätzlich 15 €" }
+          - { label: Hinweis unter den Tarifen, name: tarife_hinweis, widget: text, required: false }
+          - { label: Überschrift Rückerstattung, name: rueckerstattung_titel, widget: string }
+          - { label: Text Rückerstattung, name: rueckerstattung_text, widget: text }
+
+      - label: Kontakt
+        name: kontakt
+        file: src/kontakt.md
+        fields:
+          - { label: Layout, name: layout, widget: hidden }
+          - { label: Permalink, name: permalink, widget: hidden }
+          - { label: Überschrift, name: title, widget: string }
+          - { label: Einleitung, name: einleitung, widget: text }
+          - { label: Anfahrt, name: anfahrt, widget: text, required: false }
+
+      - label: Impressum
+        name: impressum
+        file: src/impressum.md
+        fields:
+          - { label: Layout, name: layout, widget: hidden }
+          - { label: Permalink, name: permalink, widget: hidden }
+          - { label: Überschrift, name: title, widget: string }
+          - { label: Text, name: body, widget: markdown }
+
+      - label: Datenschutz
+        name: datenschutz
+        file: src/datenschutz.md
+        fields:
+          - { label: Layout, name: layout, widget: hidden }
+          - { label: Permalink, name: permalink, widget: hidden }
+          - { label: Überschrift, name: title, widget: string }
+          - { label: Text, name: body, widget: markdown }
+
+  # ------------------------------------------------------------------ EINSTELLUNGEN
+  - name: einstellungen
+    label: Einstellungen
+    description: Kontaktdaten und Menü – gelten für die ganze Website.
+    delete: false
+    editor: { preview: false }
+    files:
+      - label: Kontaktdaten & Allgemeines
+        name: site
+        file: src/_data/site.json
+        format: json
+        fields:
+          - { label: Name der Praxis, name: name, widget: string }
+          - { label: Untertitel, name: claim, widget: string }
+          - { label: Beschreibung für Google, name: beschreibung, widget: text }
+          - { label: Website-Adresse, name: url, widget: string }
+          - { label: Straße, name: strasse, widget: string }
+          - { label: Adresszusatz, name: zusatz, widget: string, required: false }
+          - { label: PLZ, name: plz, widget: string }
+          - { label: Ort, name: ort, widget: string }
+          - { label: E-Mail, name: email, widget: string }
+          - { label: Facebook-Link, name: facebook, widget: string, required: false }
+          - { label: Link zur Karte, name: karte_link, widget: string }
+          - { label: Hinweis Terminvereinbarung, name: termin_hinweis, widget: text }
+          - { label: Fotonachweis, name: fotocredit, widget: string, required: false }
+          - { label: Link Fotonachweis, name: fotocredit_link, widget: string, required: false }
+      - label: Menü
+        name: navigation
+        file: src/_data/navigation.json
+        format: json
+        fields:
+          - label: Menüpunkte
+            name: links
+            widget: list
+            label_singular: Menüpunkt
+            summary: "{{titel}} → {{url}}"
+            fields:
+              - { label: Bezeichnung, name: titel, widget: string }
+              - { label: Adresse, name: url, widget: string }

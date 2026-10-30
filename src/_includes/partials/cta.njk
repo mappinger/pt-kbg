@@ -1,0 +1,14 @@
+{% from "partials/icons.njk" import icon %}
+<section class="cta">
+  <div class="container cta__inner">
+    <div>
+      <h2>Termin vereinbaren</h2>
+      <p>{{ site.termin_hinweis }}</p>
+    </div>
+    <div class="cta__phones">
+      {%- for p in collections.team %}
+      <a class="cta__phone" href="{{ p.data.telefon | tel }}"><span>{{ p.data.name }}</span><strong>{{ icon("phone") }} {{ p.data.telefon }}</strong></a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>

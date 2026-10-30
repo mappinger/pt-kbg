@@ -1,0 +1,99 @@
+---
+layout: layouts/base.njk
+---
+{% from "partials/icons.njk" import icon %}
+{% set behandlung_daten = collections.all | seite("/behandlung/") %}
+{% set tarife_daten = collections.all | seite("/verlauf-tarife/") %}
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <p class="eyebrow">{{ hero.eyebrow }}</p>
+      <h1>{{ hero.ueberschrift }}</h1>
+      <p class="lead">{{ hero.text }}</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="/kontakt/">{{ icon("phone") }} Termin vereinbaren</a>
+        <a class="btn btn--ghost" href="/team/">Team kennenlernen {{ icon("arrow") }}</a>
+      </div>
+    </div>
+    <div class="hero__media">
+      <div class="hero__blob" aria-hidden="true"></div>
+      <img src="{{ hero.bild }}" alt="{{ hero.bild_alt }}" sizes="(min-width: 960px) 50vw, 100vw" loading="eager" fetchpriority="high">
+    </div>
+  </div>
+  {% if fakten %}
+  <div class="container">
+    <ul class="facts">
+      {%- for f in fakten %}
+      <li><strong>{{ f.zahl }}</strong><span>{{ f.text }}</span></li>
+      {%- endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</section>
+
+{% if zitat and zitat.text %}
+<section class="quote-band">
+  <div class="container">
+    <blockquote>
+      {{ icon("quote", "icon quote-band__icon") }}
+      <p>„{{ zitat.text }}“</p>
+      <footer>{{ zitat.autor }}</footer>
+    </blockquote>
+  </div>
+</section>
+{% endif %}
+
+<section class="section">
+  <div class="container split">
+    <div class="split__media">
+      <img src="/images/praxis/massage-ruecken.jpg" alt="Behandlung auf der Therapieliege" sizes="(min-width: 960px) 45vw, 100vw">
+    </div>
+    <div>
+      <p class="eyebrow">Behandlung</p>
+      <h2>{{ abschnitt_behandlung.ueberschrift }}</h2>
+      <p>{{ abschnitt_behandlung.text }}</p>
+      <ul class="checklist">
+        {%- for b in behandlung_daten.anwendungsbereiche | limit(6) %}
+        <li>{{ icon("check") }} {{ b.titel }}</li>
+        {%- endfor %}
+      </ul>
+      <a class="link-arrow" href="/behandlung/">Alle Anwendungsbereiche {{ icon("arrow") }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Team</p>
+        <h2>{{ abschnitt_team.ueberschrift }}</h2>
+        <p>{{ abschnitt_team.text }}</p>
+      </div>
+      <a class="link-arrow" href="/team/">Zum Team {{ icon("arrow") }}</a>
+    </div>
+    <div class="team-grid">
+      {%- for p in collections.team %}{% include "partials/team-card.njk" %}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Verlauf &amp; Tarife</p>
+        <h2>{{ abschnitt_ablauf.ueberschrift }}</h2>
+        <p>{{ abschnitt_ablauf.text }}</p>
+      </div>
+      <a class="link-arrow" href="/verlauf-tarife/">Ablauf &amp; Tarife {{ icon("arrow") }}</a>
+    </div>
+    <ol class="steps steps--compact">
+      {%- for s in tarife_daten.schritte | limit(5) %}
+      <li><span class="steps__num">{{ loop.index }}</span><h3>{{ s.titel }}</h3></li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
+{% include "partials/cta.njk" %}

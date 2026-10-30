@@ -1,0 +1,33 @@
+---
+layout: layouts/base.njk
+---
+{% from "partials/icons.njk" import icon %}
+{% include "partials/page-hero.njk" %}
+<section class="section section--flush-top">
+  <div class="container split">
+    <div class="split__media">
+      <img src="{{ titelbild }}" alt="{{ titelbild_alt }}" sizes="(min-width: 960px) 45vw, 100vw">
+    </div>
+    <div>
+      <div class="prose">{{ content | safe }}</div>
+      <div class="info-card">
+        <p class="info-card__title">{{ icon("pin") }} Anschrift</p>
+        <address>{{ site.name }}<br>{{ site.strasse }} – {{ site.zusatz }}<br>{{ site.plz }} {{ site.ort }}</address>
+        <a class="link-arrow" href="{{ site.karte_link }}" rel="noopener" target="_blank">Auf der Karte öffnen {{ icon("arrow") }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% if galerie %}
+<section class="section section--tint">
+  <div class="container">
+    <h2>Einblicke in die Praxis</h2>
+    <div class="gallery">
+      {%- for g in galerie %}
+      <figure><img src="{{ g.bild }}" alt="{{ g.alt }}" sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw"></figure>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% include "partials/cta.njk" %}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- set seitentitel = site.name if page.url == "/" else (title + " | " + site.name) %}
+  <title>{{ seitentitel }}</title>
+  <meta name="description" content="{{ beschreibung or einleitung or site.beschreibung }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_AT">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:title" content="{{ seitentitel }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}{{ og_bild or '/images/praxis/team-gruppe-2.jpg' }}">
+  <meta name="theme-color" content="#A12E26">
+  <meta name="google-site-verification" content="MvNTlgrq_XCoIm9OW3S2gfb7l1DPpQ-edGKQ_MNGMXg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Physiotherapy",
+    "name": {{ site.name | dump | safe }},
+    "url": {{ site.url | dump | safe }},
+    "email": {{ site.email | dump | safe }},
+    "image": "{{ site.url }}/images/praxis/team-gruppe-2.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": {{ site.strasse | dump | safe }},
+      "postalCode": {{ site.plz | dump | safe }},
+      "addressLocality": {{ site.ort | dump | safe }},
+      "addressCountry": "AT"
+    }
+  }
+  </script>
+  <script src="/assets/js/main.js" defer></script>
+</head>
+<body>
+  {% include "partials/header.njk" %}
+  <main id="inhalt">
+    {{ content | safe }}
+  </main>
+  {% include "partials/footer.njk" %}
+</body>
+</html>

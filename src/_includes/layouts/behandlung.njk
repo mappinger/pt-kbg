@@ -1,0 +1,41 @@
+---
+layout: layouts/base.njk
+---
+{% from "partials/icons.njk" import icon %}
+{% include "partials/page-hero.njk" %}
+<section class="section section--flush-top">
+  <div class="container">
+    <ul class="area-grid">
+      {%- for b in anwendungsbereiche %}
+      <li class="area-card">
+        <span class="area-card__icon">{{ icon("check") }}</span>
+        <div><h3>{{ b.titel }}</h3>{% if b.text %}<p>{{ b.text }}</p>{% endif %}</div>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+<section class="section section--tint">
+  <div class="container split">
+    <div>
+      <h2>{{ angebote_titel }}</h2>
+      <ul class="checklist checklist--large">
+        {%- for a in angebote %}<li>{{ icon("plus") }} <span><strong>{{ a.titel }}</strong>{% if a.text %}<br>{{ a.text }}{% endif %}</span></li>{% endfor %}
+      </ul>
+      {{ content | safe }}
+    </div>
+    <div class="split__media">
+      <img src="{{ titelbild }}" alt="{{ titelbild_alt }}" sizes="(min-width: 960px) 45vw, 100vw">
+    </div>
+  </div>
+</section>
+{% if zitate %}
+<section class="quote-band">
+  <div class="container quote-band__grid">
+    {%- for z in zitate %}
+    <blockquote>{{ icon("quote", "icon quote-band__icon") }}<p>„{{ z.text }}“</p><footer>{{ z.autor }}</footer></blockquote>
+    {%- endfor %}
+  </div>
+</section>
+{% endif %}
+{% include "partials/cta.njk" %}

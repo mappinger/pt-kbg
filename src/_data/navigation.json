@@ -1,0 +1,10 @@
+{
+  "links": [
+    { "titel": "Start", "url": "/" },
+    { "titel": "Team", "url": "/team/" },
+    { "titel": "Die Praxis", "url": "/die-praxis/" },
+    { "titel": "Behandlung", "url": "/behandlung/" },
+    { "titel": "Verlauf & Tarife", "url": "/verlauf-tarife/" },
+    { "titel": "Kontakt", "url": "/kontakt/" }
+  ]
+}

@@ -1,0 +1,15 @@
+---
+layout: layouts/base.njk
+---
+{% from "partials/icons.njk" import icon %}
+{% include "partials/page-hero.njk" %}
+<section class="section section--flush-top">
+  <div class="container team-grid">
+    {%- for p in collections.team %}{% include "partials/team-card.njk" %}{% endfor %}
+  </div>
+</section>
+<section class="section section--flush-top">
+  <div class="container">
+    <img class="wide-image" src="/images/praxis/team-gruppe.jpg" alt="Das Team der Physiotherapie Kaumberg" sizes="(min-width: 1200px) 1150px, 100vw">
+  </div>
+</section>

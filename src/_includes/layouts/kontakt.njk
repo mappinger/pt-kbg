@@ -1,0 +1,30 @@
+---
+layout: layouts/base.njk
+---
+{% from "partials/icons.njk" import icon %}
+{% include "partials/page-hero.njk" %}
+<section class="section section--flush-top">
+  <div class="container contact-grid">
+    <div class="contact-people">
+      {%- for p in collections.team %}
+      <div class="contact-person">
+        <img src="{{ p.data.foto }}" alt="" sizes="96px" width="96" height="96">
+        <div>
+          <h3><a href="{{ p.url }}">{{ p.data.voller_name or p.data.name }}</a></h3>
+          <p>{{ p.data.rolle }}</p>
+          <a class="contact-person__phone" href="{{ p.data.telefon | tel }}">{{ icon("phone") }} {{ p.data.telefon }}</a>
+        </div>
+      </div>
+      {%- endfor %}
+    </div>
+    <aside class="info-card info-card--accent contact-aside">
+      <p class="info-card__title">{{ icon("mail") }} E-Mail</p>
+      <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      <p class="info-card__title">{{ icon("pin") }} Anschrift</p>
+      <address>{{ site.name }}<br>{{ site.strasse }} – {{ site.zusatz }}<br>{{ site.plz }} {{ site.ort }}</address>
+      {% if anfahrt %}<p>{{ anfahrt }}</p>{% endif %}
+      <a class="btn btn--light" href="{{ site.karte_link }}" rel="noopener" target="_blank">{{ icon("pin") }} Route planen</a>
+      {{ content | safe }}
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+{% from "partials/icons.njk" import icon %}
+<footer class="site-footer">
+  {% include "partials/swoosh.njk" %}
+  <div class="site-footer__body">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-title">{{ site.name }}</p>
+        <p>{{ site.claim }}</p>
+        <address>
+          {{ site.strasse }} – {{ site.zusatz }}<br>
+          {{ site.plz }} {{ site.ort }}
+        </address>
+        <p><a href="mailto:{{ site.email }}">{{ icon("mail") }} {{ site.email }}</a></p>
+        {% if site.facebook %}<p><a href="{{ site.facebook }}" rel="noopener" target="_blank">{{ icon("facebook") }} Facebook</a></p>{% endif %}
+      </div>
+      <div>
+        <p class="footer-title">Terminvereinbarung</p>
+        <ul class="footer-phones">
+          {%- for p in collections.team %}
+          <li><span>{{ p.data.name }}</span> <a href="{{ p.data.telefon | tel }}">{{ p.data.telefon }}</a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+      <div>
+        <p class="footer-title">Seiten</p>
+        <ul class="footer-links">
+          {%- for link in navigation.links %}<li><a href="{{ link.url }}">{{ link.titel }}</a></li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© {% year %} {{ site.name }}{% if site.fotocredit %} · <a href="{{ site.fotocredit_link }}" rel="noopener" target="_blank">{{ site.fotocredit }}</a>{% endif %}</p>
+      <p><a href="/impressum/">Impressum</a> · <a href="/datenschutz/">Datenschutz</a></p>
+    </div>
+  </div>
+</footer>

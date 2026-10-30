@@ -1,0 +1,52 @@
+---
+layout: layouts/base.njk
+---
+{% from "partials/icons.njk" import icon %}
+<section class="profile-hero">
+  <div class="container profile-hero__grid">
+    <div class="profile-hero__photo">
+      <img src="{{ foto }}" alt="Porträt von {{ name }}" sizes="(min-width: 960px) 380px, 80vw" loading="eager">
+    </div>
+    <div>
+      <a class="back-link" href="/team/">← Alle Teammitglieder</a>
+      <h1>{{ voller_name or name }}</h1>
+      <p class="lead">{{ rolle }}</p>
+      <a class="btn btn--primary" href="{{ telefon | tel }}">{{ icon("phone") }} {{ telefon }}</a>
+      {% if motto %}
+      <blockquote class="motto"><p>„{{ motto }}“</p><footer>Mein Lebensmotto</footer></blockquote>
+      {% endif %}
+    </div>
+  </div>
+</section>
+<section class="section section--flush-top">
+  <div class="container profile-grid">
+    {% if ausbildung %}
+    <div>
+      <h2>Ausbildung &amp; Beruf</h2>
+      <ol class="timeline">
+        {%- for a in ausbildung %}<li><span class="timeline__time">{{ a.zeit }}</span><span>{{ a.text }}</span></li>{% endfor %}
+      </ol>
+    </div>
+    {% endif %}
+    {% if fortbildungen %}
+    <div>
+      <h2>Fortbildungen</h2>
+      <ol class="timeline">
+        {%- for a in fortbildungen %}<li><span class="timeline__time">{{ a.zeit }}</span><span>{{ a.text }}</span></li>{% endfor %}
+      </ol>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% if persoenlich %}
+<section class="section section--tint">
+  <div class="container">
+    <h2>Persönlich</h2>
+    <dl class="personal">
+      {%- for f in persoenlich %}<div><dt>{{ f.frage }}</dt><dd>{{ f.antwort }}</dd></div>{% endfor %}
+    </dl>
+    {{ content | safe }}
+  </div>
+</section>
+{% endif %}
+{% include "partials/cta.njk" %}

@@ -1,0 +1,13 @@
+<article class="team-card">
+  <a class="team-card__link" href="{{ p.url }}">
+    <div class="team-card__photo">
+      <img src="{{ p.data.foto }}" alt="Porträt von {{ p.data.name }}" sizes="(min-width: 1100px) 260px, (min-width: 640px) 45vw, 90vw">
+    </div>
+    <div class="team-card__body">
+      <h3>{{ p.data.name }}</h3>
+      <p>{{ p.data.rolle }}</p>
+      <span class="team-card__more">Profil ansehen {{ icon("arrow") }}</span>
+    </div>
+  </a>
+  <a class="team-card__phone" href="{{ p.data.telefon | tel }}" aria-label="{{ p.data.name }} anrufen: {{ p.data.telefon }}">{{ icon("phone") }} {{ p.data.telefon }}</a>
+</article>

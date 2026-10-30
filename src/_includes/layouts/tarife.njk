@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+---
+{% from "partials/icons.njk" import icon %}
+{% include "partials/page-hero.njk" %}
+<section class="section section--flush-top">
+  <div class="container">
+    <h2 class="visually-hidden">Verlauf einer Behandlung</h2>
+    <ol class="steps">
+      {%- for s in schritte %}
+      <li><span class="steps__num">{{ loop.index }}</span><h3>{{ s.titel }}</h3><p>{{ s.text | mdInline | safe }}</p></li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+<section class="section section--tint" id="tarife">
+  <div class="container tarife-grid">
+    <div>
+      <p class="eyebrow">Tarife</p>
+      <h2>{{ tarife_titel }}</h2>
+      <div class="price-list" role="table" aria-label="{{ tarife_titel }}">
+        {%- for t in tarife %}
+        <div class="price-row" role="row">
+          <span role="cell" class="price-row__name">{{ t.leistung }}{% if t.dauer %}<small>à {{ t.dauer }}</small>{% endif %}</span>
+          <span role="cell" class="price-row__price">{{ t.preis }}</span>
+        </div>
+        {%- endfor %}
+      </div>
+      {% if tarife_hinweis %}<p class="note">{{ tarife_hinweis | mdInline | safe }}</p>{% endif %}
+    </div>
+    <aside class="info-card info-card--accent">
+      <p class="info-card__title">{{ rueckerstattung_titel }}</p>
+      <p>{{ rueckerstattung_text | mdInline | safe }}</p>
+      {{ content | safe }}
+    </aside>
+  </div>
+</section>
+{% include "partials/cta.njk" %}

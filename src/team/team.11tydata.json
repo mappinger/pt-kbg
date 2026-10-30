@@ -1,0 +1,9 @@
+{
+  "layout": "layouts/team-member.njk",
+  "permalink": "/team/{{ page.fileSlug }}/",
+  "eleventyComputed": {
+    "title": "{{ name }}",
+    "beschreibung": "{{ voller_name or name }} – {{ rolle }} bei Physiotherapie Kaumberg.",
+    "og_bild": "{{ foto }}"
+  }
+}
