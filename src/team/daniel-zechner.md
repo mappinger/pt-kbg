@@ -3,7 +3,7 @@ name: Daniel Zechner
 voller_name: Daniel Zechner, BSc
 rolle: Physiotherapeut, Sportphysiotherapeut
 telefon: +43 680 2433170
-foto: /images/team/daniel-zechner.jpg
+foto: /images/uploads/team-daniel-zechner.jpg
 reihenfolge: 3
 ausbildung:
   - zeit: seit 2014

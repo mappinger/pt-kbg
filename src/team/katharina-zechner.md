@@ -3,7 +3,7 @@ name: Katharina Zechner
 voller_name: Mag. Katharina Zechner, BSc
 rolle: Physiotherapeutin, Sportwissenschafterin
 telefon: +43 650 2710321
-foto: /images/team/katharina-zechner.jpg
+foto: /images/uploads/team-katharina-zechner.jpg
 reihenfolge: 2
 ausbildung:
   - zeit: seit 2020

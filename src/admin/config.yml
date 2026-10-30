@@ -22,6 +22,13 @@ logo_url: /images/logo.jpg
 
 media_folder: src/images/uploads
 public_folder: /images/uploads
+# Große Fotos werden beim Speichern automatisch verkleinert (server/bilder.js), max. ca. 18 MB pro Datei
+
+# Saubere Dateinamen für hochgeladene Bilder: „IMG Müller.JPG“ → „img-mueller.jpg“
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
 
 collections:
   # ------------------------------------------------------------------ TEAM
@@ -97,7 +104,7 @@ collections:
               - { label: Kleine Zeile über der Überschrift, name: eyebrow, widget: string }
               - { label: Überschrift, name: ueberschrift, widget: string }
               - { label: Text, name: text, widget: text }
-              - { label: Bild, name: bild, widget: image }
+              - { label: Bild, name: bild, widget: image, hint: "Querformat" }
               - { label: Bildbeschreibung (für Barrierefreiheit), name: bild_alt, widget: string }
           - label: Fakten-Kacheln
             name: fakten
@@ -119,6 +126,8 @@ collections:
             fields:
               - { label: Überschrift, name: ueberschrift, widget: string }
               - { label: Text, name: text, widget: text }
+              - { label: Bild, name: bild, widget: image, hint: "Querformat" }
+              - { label: Bildbeschreibung, name: bild_alt, widget: string }
           - label: Abschnitt „Team“
             name: abschnitt_team
             widget: object
@@ -140,6 +149,8 @@ collections:
           - { label: Permalink, name: permalink, widget: hidden }
           - { label: Überschrift, name: title, widget: string }
           - { label: Einleitung, name: einleitung, widget: text }
+          - { label: Gruppenfoto unter den Karten, name: teambild, widget: image, required: false, hint: "Breites Querformat – leer lassen, um es auszublenden" }
+          - { label: Bildbeschreibung, name: teambild_alt, widget: string, required: false }
 
       - label: Die Praxis
         name: praxis
@@ -271,6 +282,7 @@ collections:
           - { label: Name der Praxis, name: name, widget: string }
           - { label: Untertitel, name: claim, widget: string }
           - { label: Beschreibung für Google, name: beschreibung, widget: text }
+          - { label: Vorschaubild für Facebook/WhatsApp, name: vorschaubild, widget: image, hint: "Wird angezeigt, wenn jemand einen Link zur Website teilt" }
           - { label: Website-Adresse, name: url, widget: string }
           - { label: Straße, name: strasse, widget: string }
           - { label: Adresszusatz, name: zusatz, widget: string, required: false }

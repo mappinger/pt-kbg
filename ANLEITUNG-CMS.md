@@ -27,7 +27,23 @@ Nach ca. **3–4 Minuten** ist die Änderung auf der Website sichtbar.
 
 **Neue Fortbildung eintragen:** Team → Person auswählen → „Fortbildungen“ → **„Fortbildung hinzufügen“**. Mit dem Symbol ═ können Sie Einträge per Ziehen sortieren (neueste oben).
 
-**Foto tauschen:** Beim Bildfeld auf „Bild wählen“ → „Hochladen“. Am besten Hochformat-Fotos, mindestens 800 Pixel breit. Die Website verkleinert und optimiert Bilder automatisch.
+### Bilder
+
+Jedes Foto der Website lässt sich tauschen – Porträts im Bereich **Team**, alle anderen Bilder bei der jeweiligen **Seite**
+(z. B. Startseite → „Kopfbereich“ → Bild, Die Praxis → „Bildergalerie“).
+
+1. Beim Bild auf **„Wähle ein anderes Bild“** klicken – es öffnet sich die Bildersammlung mit allen Fotos der Website.
+2. Ein vorhandenes Foto anklicken **oder** oben rechts auf **„Hochladen“** klicken und ein Foto vom Computer/Handy wählen.
+3. **„Ausgewähltes Element verwenden“** klicken.
+4. Bei **„Bildbeschreibung“** kurz beschreiben, was zu sehen ist (wichtig für blinde Besucher und Google).
+5. Oben **„Veröffentlichen“**.
+
+Gut zu wissen:
+- Fotos direkt vom Handy sind kein Problem – sie werden automatisch verkleinert, richtig gedreht und der Standort wird entfernt.
+- Porträts im **Hochformat**, alle anderen Bilder am besten im **Querformat**.
+- Erlaubt sind JPG, PNG und WebP bis ca. 18 MB.
+- Ein Foto aus der Bildersammlung löschen: Foto anklicken → „Ausgewähltes Element löschen“. Vorher prüfen, dass es nirgends mehr verwendet wird.
+- In der Galerie (Die Praxis) Bilder mit „Bild hinzufügen“ ergänzen und mit ═ per Ziehen sortieren.
 
 **Fett schreiben:** In Textfeldern Wörter mit zwei Sternchen umschließen: `**mindestens 24 Stunden**`.
 

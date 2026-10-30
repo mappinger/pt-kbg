@@ -3,7 +3,7 @@ name: Alexander Kirnbauer
 voller_name: Alexander Kirnbauer
 rolle: Heilmasseur
 telefon: +43 677 63732873
-foto: /images/team/alexander-kirnbauer.jpg
+foto: /images/uploads/team-alexander-kirnbauer.jpg
 reihenfolge: 4
 ausbildung:
   - zeit: seit 2023

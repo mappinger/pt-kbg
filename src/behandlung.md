@@ -3,7 +3,7 @@ layout: layouts/behandlung.njk
 title: Behandlung
 permalink: /behandlung/
 einleitung: Anwendungsbereiche der Physiotherapie – wir unterstützen Sie …
-titelbild: /images/praxis/behandlung-ball.jpg
+titelbild: /images/uploads/praxis-behandlung-ball.jpg
 titelbild_alt: Physiotherapeut übt mit einer Patientin auf dem Gymnastikball
 anwendungsbereiche:
   - titel: Wirbelsäulen- und Gelenksbeschwerden

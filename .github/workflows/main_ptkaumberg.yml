@@ -33,12 +33,14 @@ jobs:
           npm ci
           npm run build
 
-      # Nur das Nötige ausliefern: fertige Seite + kleiner Webserver (ohne node_modules)
+      # Nur das Nötige ausliefern: fertige Seite + kleiner Webserver + sharp
       - name: Deployment-Paket zusammenstellen
         run: |
           mkdir -p deploy
           cp -r _site server deploy/
-          node -e "const p=require('./package.json');require('fs').writeFileSync('deploy/package.json',JSON.stringify({name:p.name,version:p.version,private:true,type:'module',scripts:{start:'node server/server.js'},engines:p.engines},null,2))"
+          node -e "const p=require('./package.json');require('fs').writeFileSync('deploy/package.json',JSON.stringify({name:p.name,version:p.version,private:true,type:'module',scripts:{start:'node server/server.js'},engines:p.engines,dependencies:p.dependencies},null,2))"
+          # Laufzeit-Abhängigkeiten (sharp für die Bildverkleinerung) für Linux x64 installieren
+          cd deploy && npm install --omit=dev --no-audit --no-fund
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4

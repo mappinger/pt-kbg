@@ -34,7 +34,7 @@ npm run cms          # in einem zweiten Terminal, dann http://localhost:8080/adm
 | `src/assets/css/main.css` | Gesamtes Design |
 | `src/admin/config.yml` | CMS-Konfiguration (Felder, Beschriftungen) |
 | `server/` | Webserver für Azure, CMS-Anmeldung und -Speicherung |
-| `src/images/uploads/` | Über das CMS hochgeladene Bilder |
+| `src/images/uploads/` | Alle Fotos der Website = Medienbibliothek im CMS |
 
 ## Hosting: Azure App Service (`ptkaumberg`)
 
@@ -55,6 +55,9 @@ Bearbeiter:in ──(Microsoft-/Google-Login, Azure)──▶ /admin  ──▶ 
   Zugelassen sind nur Adressen aus `CMS_EDITORS` (`server/anmeldung.js`). Niemand braucht ein GitHub-Konto.
 - Gespeichert wird mit einem GitHub-Token, das nur in Azure liegt. Jede Änderung wird ein Commit mit der Person als Autor –
   in der Historie sieht man also, wer was geändert hat, und kann alles zurücknehmen.
+- Hochgeladene Fotos werden am Server automatisch gedreht, auf max. 2400 px verkleinert und von Metadaten
+  (GPS-Standort, Kameradaten) befreit (`server/bilder.js`). Dateinamen werden bereinigt („IMG Müller.JPG“ → `img-muller.jpg`).
+  Die Medienbibliothek bekommt nur kleine Vorschaubilder, damit sie auch mit vielen Fotos schnell bleibt.
 - Über das CMS dürfen nur Inhaltsdateien geändert werden (`src/*.md`, `src/team/*.md`, `src/_data/*.json`, `src/images/uploads/*`).
   Templates, Server-Code und Workflows sind gesperrt.
 

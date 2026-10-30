@@ -3,7 +3,7 @@ name: Marina Sörös
 voller_name: Marina Sörös, MSc
 rolle: Physiotherapeutin, Sportphysiotherapeutin, Osteopathin
 telefon: +43 680 2433180
-foto: /images/team/marina-soeroes.jpg
+foto: /images/uploads/team-marina-soeroes.jpg
 reihenfolge: 1
 ausbildung:
   - zeit: seit 2014

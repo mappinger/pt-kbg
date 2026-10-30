@@ -12,7 +12,7 @@
   <meta property="og:site_name" content="{{ site.name }}">
   <meta property="og:title" content="{{ seitentitel }}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-  <meta property="og:image" content="{{ site.url }}{{ og_bild or '/images/praxis/team-gruppe-2.jpg' }}">
+  <meta property="og:image" content="{{ site.url }}{{ og_bild or site.vorschaubild }}">
   <meta name="theme-color" content="#A12E26">
   <meta name="google-site-verification" content="MvNTlgrq_XCoIm9OW3S2gfb7l1DPpQ-edGKQ_MNGMXg">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -25,7 +25,7 @@
     "name": {{ site.name | dump | safe }},
     "url": {{ site.url | dump | safe }},
     "email": {{ site.email | dump | safe }},
-    "image": "{{ site.url }}/images/praxis/team-gruppe-2.jpg",
+    "image": "{{ site.url }}{{ site.vorschaubild }}",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": {{ site.strasse | dump | safe }},

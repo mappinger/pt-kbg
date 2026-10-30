@@ -2,6 +2,7 @@
 // das Inhalte über die GitHub-API liest und speichert.
 import path from "node:path";
 import { dateiBaum, blobLesen, committen } from "./github.js";
+import { optimieren, vorschau } from "./bilder.js";
 
 // Lesen: alles unter src/. Schreiben: nur Inhalte – keine Templates, Skripte oder Workflows.
 const LESBAR = /^src\/[^]+$/;
@@ -9,7 +10,7 @@ const SCHREIBBAR = [
   /^src\/[\w-]+\.md$/,
   /^src\/team\/[\w-]+\.md$/,
   /^src\/_data\/[\w-]+\.json$/,
-  /^src\/images\/uploads\/[\w.-]+\.(jpe?g|png|webp|gif|svg|pdf)$/i,
+  /^src\/images\/uploads\/[^/\\]+\.(jpe?g|png|webp|gif|svg|pdf)$/i,
 ];
 
 function pruefen(p, schreiben = false) {
@@ -29,14 +30,15 @@ async function eintrag(p, label) {
   return { data: (await blobLesen(sha)).toString("utf8"), file: { path: p, label, id: sha } };
 }
 
-async function mediendatei(p) {
+async function mediendatei(p, alsVorschau = false) {
   const sha = (await dateiBaum()).get(p);
   if (!sha) {
     const err = new Error(`Datei „${p}“ nicht gefunden.`);
     err.status = 404;
     throw err;
   }
-  const inhalt = await blobLesen(sha);
+  let inhalt = await blobLesen(sha);
+  if (alsVorschau) inhalt = await vorschau(sha, p, inhalt);
   return { id: sha, content: inhalt.toString("base64"), encoding: "base64", path: p, name: path.posix.basename(p) };
 }
 
@@ -81,7 +83,8 @@ export async function cmsAktion(action, params = {}, benutzer) {
         }
       }
       for (const a of params.assets || []) {
-        aenderungen.push({ path: pruefen(a.path, true), content: Buffer.from(a.content, a.encoding) });
+        const ziel = pruefen(a.path, true);
+        aenderungen.push({ path: ziel, content: await optimieren(ziel, Buffer.from(a.content, a.encoding)) });
       }
       await committen(aenderungen, nachricht("Inhalt geändert"), autor);
       return { message: "entry persisted" };
@@ -90,7 +93,8 @@ export async function cmsAktion(action, params = {}, benutzer) {
     case "getMedia": {
       const ordner = pruefen(params.mediaFolder);
       const dateien = imOrdner(await dateiBaum(), ordner).filter((p) => !p.endsWith(".gitkeep"));
-      return Promise.all(dateien.map(mediendatei));
+      // Nur Vorschaubilder – sonst müsste der Browser jedes Foto in voller Größe laden
+      return Promise.all(dateien.map((p) => mediendatei(p, true)));
     }
 
     case "getMediaFile":
@@ -99,9 +103,9 @@ export async function cmsAktion(action, params = {}, benutzer) {
     case "persistMedia": {
       const a = params.asset;
       const ziel = pruefen(a.path, true);
-      const inhalt = Buffer.from(a.content, a.encoding);
+      const inhalt = await optimieren(ziel, Buffer.from(a.content, a.encoding));
       const sha = await committen([{ path: ziel, content: inhalt }], nachricht(`Bild hochgeladen: ${ziel}`), autor);
-      return { id: sha, content: a.content, encoding: a.encoding, path: ziel, name: path.posix.basename(ziel) };
+      return { id: sha, content: inhalt.toString("base64"), encoding: "base64", path: ziel, name: path.posix.basename(ziel) };
     }
 
     case "deleteFile":
